@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { mammals } from "../../content/mammals";
 
-test("homepage renders the scrollytelling chapters and featured mammal links", async ({
+test("homepage renders the scrollytelling chapters and featured mammal stage", async ({
   page,
 }) => {
   await page.goto("/");
@@ -24,12 +24,16 @@ test("homepage renders the scrollytelling chapters and featured mammal links", a
     page.getByRole("heading", { name: "Explore More Wildlife" }),
   ).toBeVisible();
 
-  for (const mammal of mammals) {
-    await expect(page.getByRole("link", { name: mammal.name }).first()).toHaveAttribute(
-      "href",
-      new RegExp(`/mammals/${mammal.slug}/?$`),
-    );
-  }
+  await expect(
+    page.getByRole("heading", { name: "White-tailed Deer" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "White-tailed Deer", exact: true }),
+  ).toHaveAttribute("href", /\/mammals\/white-tailed-deer\/?$/);
+  await expect(page.getByRole("link", { name: "View Detail Page" }).first()).toHaveAttribute(
+    "href",
+    /\/mammals\/white-tailed-deer\/?$/,
+  );
 });
 
 test("about page loads project context and credits", async ({ page }) => {
