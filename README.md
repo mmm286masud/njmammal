@@ -2,6 +2,10 @@
 
 A scrollytelling website built with Next.js, TypeScript, Tailwind CSS, and Framer Motion to showcase five mammals commonly found in New Jersey.
 
+## Live Site
+
+https://mmm286masud.github.io/njmammal/
+
 ## Features
 
 - Story-driven homepage with immersive chapter-based scrolling
