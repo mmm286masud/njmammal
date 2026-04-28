@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import {
-  AnimatePresence,
   motion,
   useMotionValueEvent,
   useReducedMotion,
@@ -131,25 +130,22 @@ export function FeaturedScroller({
               </p>
             </div>
 
-            <div className="order-1 relative h-[18rem] sm:h-[23rem] md:h-[30rem] lg:order-2 lg:h-[36rem]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeMammal.slug}
-                  className="absolute inset-0"
-                  initial={{ opacity: 0, y: 30, scale: 0.985 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -30, scale: 0.985 }}
-                  transition={{ duration: 0.42, ease: "easeInOut" }}
-                >
-                  <MammalCard
-                    mammal={activeMammal}
-                    image={imageSources[activeMammal.imageKey]}
-                    priority={activeIndex === 0}
-                    animationMode="none"
-                    className="h-full"
-                  />
-                </motion.div>
-              </AnimatePresence>
+            <div className="order-1 relative h-[18rem] overflow-hidden rounded-[2rem] sm:h-[23rem] md:h-[30rem] lg:order-2 lg:h-[36rem]">
+              <motion.div
+                key={activeMammal.slug}
+                className="absolute inset-0"
+                initial={{ opacity: 0, y: 24, scale: 0.99 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.34, ease: "easeOut" }}
+              >
+                <MammalCard
+                  mammal={activeMammal}
+                  image={imageSources[activeMammal.imageKey]}
+                  priority={activeIndex === 0}
+                  animationMode="none"
+                  className="h-full"
+                />
+              </motion.div>
             </div>
           </div>
         </div>
