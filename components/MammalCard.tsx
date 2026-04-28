@@ -11,6 +11,9 @@ type MammalCardProps = {
   image: ImageSource;
   reverse?: boolean;
   priority?: boolean;
+  animationMode?: "inView" | "none";
+  interactive?: boolean;
+  className?: string;
 };
 
 export function MammalCard({
@@ -18,16 +21,26 @@ export function MammalCard({
   image,
   reverse = false,
   priority = false,
+  animationMode = "inView",
+  interactive = true,
+  className = "",
 }: MammalCardProps) {
   const prefersReducedMotion = useReducedMotion();
+  const useInViewAnimation = animationMode === "inView" && !prefersReducedMotion;
+  const linkProps = interactive
+    ? {}
+    : {
+        tabIndex: -1,
+        "aria-hidden": true,
+      };
 
   return (
     <motion.article
-      className="overflow-hidden rounded-[2rem] border border-line/80 bg-[rgba(248,245,234,0.86)] shadow-[0_26px_60px_rgba(31,44,36,0.12)] backdrop-blur-sm"
-      initial={prefersReducedMotion ? false : { opacity: 0, x: reverse ? 44 : -44 }}
-      whileInView={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.72, ease: "easeOut" }}
+      className={`overflow-hidden rounded-[2rem] border border-line/80 bg-[rgba(248,245,234,0.86)] shadow-[0_26px_60px_rgba(31,44,36,0.12)] backdrop-blur-sm ${className}`}
+      initial={useInViewAnimation ? { opacity: 0, x: reverse ? 44 : -44 } : false}
+      whileInView={useInViewAnimation ? { opacity: 1, x: 0 } : undefined}
+      viewport={useInViewAnimation ? { once: true, amount: 0.2 } : undefined}
+      transition={useInViewAnimation ? { duration: 0.72, ease: "easeOut" } : undefined}
     >
       <div className={`flex flex-col ${reverse ? "md:flex-row-reverse" : "md:flex-row"}`}>
         <div className="group relative min-h-[18rem] flex-1 overflow-hidden md:min-h-[26rem]">
@@ -47,6 +60,7 @@ export function MammalCard({
             <Link
               href={`/mammals/${mammal.slug}`}
               className="transition hover:text-forest"
+              {...linkProps}
             >
               {mammal.name}
             </Link>
@@ -58,6 +72,7 @@ export function MammalCard({
             <Link
               href={`/mammals/${mammal.slug}`}
               className="inline-flex items-center rounded-full bg-forest px-5 py-3 text-sm font-semibold tracking-[0.18em] uppercase text-beige transition hover:bg-forest-deep"
+              {...linkProps}
             >
               View Detail Page
             </Link>
