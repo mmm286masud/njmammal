@@ -86,7 +86,8 @@ export function FeaturedScroller({
       className="relative min-h-[500vh] overflow-clip bg-[linear-gradient(180deg,#ece3cd_0%,#f7f2e8_26%,#efe4cf_60%,#f4efe4_100%)]"
     >
       <div className="sticky top-0 flex h-screen items-center">
-        <div className="page-shell w-full pt-18 pb-20 sm:pt-20 sm:pb-24 lg:pt-22 lg:pb-28">
+        <div className="page-shell flex h-[calc(100svh-5.75rem)] w-full items-center pt-20 pb-10 sm:h-[calc(100svh-6.5rem)] sm:pt-22 sm:pb-12 lg:h-[calc(100svh-7rem)] lg:pt-24 lg:pb-14">
+          <div className="w-full">
           <motion.div
             className="mx-auto max-w-4xl text-center"
             initial={{ opacity: 0, y: 24 }}
@@ -105,7 +106,7 @@ export function FeaturedScroller({
             </p>
           </motion.div>
 
-          <div className="mt-6 pb-6 sm:mt-8 sm:pb-8">
+          <div className="mt-5 sm:mt-6">
             <motion.article
               key={activeMammal.slug}
               initial={{ opacity: 0, y: 26, scale: 0.992 }}
@@ -113,8 +114,8 @@ export function FeaturedScroller({
               transition={{ duration: 0.38, ease: "easeOut" }}
               className="mx-auto max-w-[72rem] overflow-hidden rounded-[2rem] border border-line/70 bg-[rgba(248,245,234,0.94)] shadow-[0_34px_90px_rgba(35,45,38,0.14)] backdrop-blur-sm"
             >
-              <div className="grid min-h-[58vh] lg:min-h-[54vh] lg:grid-cols-[1.35fr_0.85fr]">
-                <div className="relative min-h-[22rem] lg:min-h-full">
+              <div className="grid min-h-[50vh] lg:grid-cols-[1.35fr_0.85fr]">
+                <div className="relative min-h-[18rem] sm:min-h-[20rem] lg:min-h-[50vh]">
                   <Image
                     src={activeImage.src}
                     alt={activeImage.alt}
@@ -140,7 +141,7 @@ export function FeaturedScroller({
                   </div>
                 </div>
 
-                <div className="flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10">
+                <div className="flex flex-col justify-between gap-6 p-5 sm:p-7 lg:p-8">
                   <div>
                     <div className="flex items-center gap-4 text-forest/68">
                       <span className="h-px w-12 bg-current opacity-50" />
@@ -148,7 +149,7 @@ export function FeaturedScroller({
                         {activeMammal.name}
                       </span>
                     </div>
-                    <h3 className="story-balance mt-5 font-display text-4xl leading-tight font-semibold text-forest-deep sm:text-5xl lg:text-[3.6rem]">
+                    <h3 className="story-balance mt-4 font-display text-4xl leading-tight font-semibold text-forest-deep sm:text-5xl lg:text-[3.3rem]">
                       <Link
                         href={`/mammals/${activeMammal.slug}`}
                         className="transition hover:text-forest"
@@ -156,7 +157,7 @@ export function FeaturedScroller({
                         {activeMammal.name}
                       </Link>
                     </h3>
-                    <p className="story-pretty mt-5 max-w-xl text-lg leading-8 text-foreground/80 sm:text-xl">
+                    <p className="story-pretty mt-4 max-w-xl text-lg leading-8 text-foreground/80">
                       {activeMammal.shortDescription}
                     </p>
                   </div>
@@ -180,7 +181,7 @@ export function FeaturedScroller({
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-5 border-t border-line/70 pt-5 sm:flex-row sm:items-end sm:justify-between">
+                  <div className="flex flex-col gap-4 border-t border-line/70 pt-4 sm:flex-row sm:items-end sm:justify-between">
                     <div className="flex gap-2" aria-hidden="true">
                       {mammals.map((mammal, index) => (
                         <span
@@ -208,6 +209,7 @@ export function FeaturedScroller({
                 </div>
               </div>
             </motion.article>
+          </div>
           </div>
         </div>
       </div>
