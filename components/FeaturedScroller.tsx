@@ -3,12 +3,11 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import {
+  AnimatePresence,
   motion,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
-  useTransform,
-  type MotionValue,
 } from "framer-motion";
 import type { Mammal } from "@/content/mammals";
 import { imageSources } from "@/data/imageSources";
@@ -21,55 +20,8 @@ type FeaturedScrollerProps = {
   mammals: Mammal[];
 };
 
-type FeaturedCardLayerProps = {
-  mammal: Mammal;
-  index: number;
-  count: number;
-  isActive: boolean;
-  progress: MotionValue<number>;
-};
-
 function clampIndex(index: number, count: number) {
   return Math.min(count - 1, Math.max(0, index));
-}
-
-function FeaturedCardLayer({
-  mammal,
-  index,
-  count,
-  isActive,
-  progress,
-}: FeaturedCardLayerProps) {
-  const reverse = index % 2 === 1;
-  const step = 1 / count;
-  const entry = Math.max(0, index * step - step * 0.22);
-  const holdStart = index * step;
-  const holdEnd = Math.min(1, (index + 0.58) * step);
-  const exit = Math.min(1, (index + 0.98) * step);
-  const xOffset = reverse ? 52 : -52;
-
-  const opacity = useTransform(progress, [entry, holdStart, holdEnd, exit], [0, 1, 1, 0]);
-  const y = useTransform(progress, [entry, holdStart, holdEnd, exit], [48, 0, 0, -48]);
-  const x = useTransform(progress, [entry, holdStart, holdEnd, exit], [xOffset, 0, 0, xOffset * 0.35]);
-  const scale = useTransform(progress, [entry, holdStart, holdEnd, exit], [0.96, 1, 1, 0.985]);
-
-  return (
-    <motion.div
-      className={`absolute inset-0 ${isActive ? "pointer-events-auto" : "pointer-events-none"}`}
-      style={{ opacity, y, x, scale }}
-      aria-hidden={!isActive}
-    >
-      <MammalCard
-        mammal={mammal}
-        image={imageSources[mammal.imageKey]}
-        reverse={reverse}
-        priority={index === 0}
-        animationMode="none"
-        interactive={isActive}
-        className="h-full"
-      />
-    </motion.div>
-  );
 }
 
 export function FeaturedScroller({
@@ -85,6 +37,7 @@ export function FeaturedScroller({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
+  const activeMammal = mammals[activeIndex];
 
   useMotionValueEvent(scrollYProgress, "change", (value) => {
     const nextIndex = clampIndex(Math.floor(value * mammals.length), mammals.length);
@@ -179,16 +132,24 @@ export function FeaturedScroller({
             </div>
 
             <div className="order-1 relative h-[18rem] sm:h-[23rem] md:h-[30rem] lg:order-2 lg:h-[36rem]">
-              {mammals.map((mammal, index) => (
-                <FeaturedCardLayer
-                  key={mammal.slug}
-                  mammal={mammal}
-                  index={index}
-                  count={mammals.length}
-                  isActive={index === activeIndex}
-                  progress={scrollYProgress}
-                />
-              ))}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeMammal.slug}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0, y: 30, scale: 0.985 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -30, scale: 0.985 }}
+                  transition={{ duration: 0.42, ease: "easeInOut" }}
+                >
+                  <MammalCard
+                    mammal={activeMammal}
+                    image={imageSources[activeMammal.imageKey]}
+                    priority={activeIndex === 0}
+                    animationMode="none"
+                    className="h-full"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>
