@@ -10,8 +10,8 @@ import {
   useScroll,
 } from "framer-motion";
 import type { Mammal } from "@/content/mammals";
-import { imageSources } from "@/data/imageSources";
 import { MammalCard } from "@/components/MammalCard";
+import { imageSources } from "@/data/imageSources";
 
 type FeaturedScrollerProps = {
   eyebrow: string;
@@ -86,7 +86,7 @@ export function FeaturedScroller({
       className="relative min-h-[500vh] overflow-clip bg-[linear-gradient(180deg,#ece3cd_0%,#f7f2e8_26%,#efe4cf_60%,#f4efe4_100%)]"
     >
       <div className="sticky top-0 flex h-screen items-center">
-        <div className="page-shell w-full py-10 sm:py-14">
+        <div className="page-shell w-full pt-18 pb-20 sm:pt-20 sm:pb-24 lg:pt-22 lg:pb-28">
           <motion.div
             className="mx-auto max-w-4xl text-center"
             initial={{ opacity: 0, y: 24 }}
@@ -105,15 +105,15 @@ export function FeaturedScroller({
             </p>
           </motion.div>
 
-          <div className="mt-8 sm:mt-10">
+          <div className="mt-6 pb-6 sm:mt-8 sm:pb-8">
             <motion.article
               key={activeMammal.slug}
               initial={{ opacity: 0, y: 26, scale: 0.992 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.38, ease: "easeOut" }}
-              className="overflow-hidden rounded-[2rem] border border-line/70 bg-[rgba(248,245,234,0.94)] shadow-[0_34px_90px_rgba(35,45,38,0.14)] backdrop-blur-sm"
+              className="mx-auto max-w-[72rem] overflow-hidden rounded-[2rem] border border-line/70 bg-[rgba(248,245,234,0.94)] shadow-[0_34px_90px_rgba(35,45,38,0.14)] backdrop-blur-sm"
             >
-              <div className="grid min-h-[70vh] lg:grid-cols-[1.35fr_0.85fr]">
+              <div className="grid min-h-[58vh] lg:min-h-[54vh] lg:grid-cols-[1.35fr_0.85fr]">
                 <div className="relative min-h-[22rem] lg:min-h-full">
                   <Image
                     src={activeImage.src}
